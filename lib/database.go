@@ -11,12 +11,11 @@ type Database struct {
 	ORM *gorm.DB
 }
 
-func ConnectDatabase(config Config) Database {
-	dsn := "host=localhost user=tempo_user password=tempo_password dbname=tempo_db port=5432 sslmode=disable TimeZone=Asia/Jakarta"
-	//db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+var DB *gorm.DB
 
+func ConnectDatabase(config Config) Database {
 	dbConfig := postgres.Config{
-		DSN: dsn,
+		DSN: config.Database.DSN(),
 	}
 
 	db, err := gorm.Open(postgres.New(dbConfig), &gorm.Config{
@@ -28,12 +27,18 @@ func ConnectDatabase(config Config) Database {
 		},
 		QueryFields: true,
 	})
-
-	db.AutoMigrate(&models.Article{})
-
 	if err != nil {
 		panic(err)
 	}
+
+	errMigrate := db.AutoMigrate(
+		&models.Article{},
+	)
+	if errMigrate != nil {
+		panic(errMigrate)
+	}
+
+	DB = db
 
 	return Database{
 		ORM: db,

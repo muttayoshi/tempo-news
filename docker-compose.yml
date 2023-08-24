@@ -12,14 +12,14 @@ services:
       - data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
-  pg-admin:
-    container_name: "pg-admin"
-    image: "dpage/pgadmin4:6"
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=tempo_user
-      - PGADMIN_DEFAULT_PASSWORD=tempo_password
-      - PGADMIN_LISTEN_PORT=5050
-    ports:
-      - "5050:5050"
+#  pg-admin:
+#    container_name: "pg-admin"
+#    image: "dpage/pgadmin4:6"
+#    environment:
+#      - PGADMIN_DEFAULT_EMAIL=tempo_user
+#      - PGADMIN_DEFAULT_PASSWORD=tempo_password
+#      - PGADMIN_LISTEN_PORT=5050
+#    ports:
+#      - "5050:5050"
 volumes:
   data: {}
