@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: "db"
+    image: "postgres:14-alpine"
+    environment:
+      - POSTGRES_USER=tempo_user
+      - POSTGRES_PASSWORD=tempo_password
+      - POSTGRES_DB=tempo_db
+    volumes:
+      - data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+  pg-admin:
+    container_name: "pg-admin"
+    image: "dpage/pgadmin4:6"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=tempo_user
+      - PGADMIN_DEFAULT_PASSWORD=tempo_password
+      - PGADMIN_LISTEN_PORT=5050
+    ports:
+      - "5050:5050"
+volumes:
+  data: {}

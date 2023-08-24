@@ -1,0 +1,19 @@
+Name: tempo-news
+
+Http:
+  Host: 127.0.0.1
+  Port: 8000
+
+Database:
+  Engine: postgres
+  Name: tempo_db
+  Host: localhost
+  Port: 5432
+  Username: tempo_user
+  Password: tempo_password
+  TablePrefix: t
+  MaxLifetime: 7200
+  MaxOpenConns: 150
+  MaxIdleConns: 50
+  SslMode: disable
+  TimeZone: Asia/Jakarta
