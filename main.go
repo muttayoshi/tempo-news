@@ -2,9 +2,12 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/muttayoshi/tempo-news/api/controllers"
+	"github.com/muttayoshi/tempo-news/api/middlewares"
 	"github.com/muttayoshi/tempo-news/lib"
-	"net/http"
+	"log"
+	"os"
 )
 
 func init() {
@@ -13,28 +16,26 @@ func init() {
 }
 
 func main() {
+	errGetEnv := godotenv.Load()
+	if errGetEnv != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	router := gin.New()
 	router.GET("/", func(context *gin.Context) {
 		context.String(200, "Tempo News")
 	})
 
-	//config := lib.NewConfig()
-	//lib.ConnectDatabase(config)
-
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-
 	router.POST("/api/v1/signup", controllers.SignUp)
-	router.GET("/api/v1/articles", controllers.Index)
-	router.GET("/api/v1/article/:id", controllers.Show)
-	router.POST("/api/v1/article", controllers.Create)
-	router.PUT("/api/v1/article/:id", controllers.Update)
-	router.DELETE("/api/v1/article", controllers.Delete)
+	router.POST("/api/v1/login", controllers.SignIn)
+	router.GET("/api/v1/validate", middlewares.Auth, controllers.Validate)
+	router.GET("/api/v1/articles", middlewares.Auth, controllers.Index)
+	router.GET("/api/v1/article/:id", middlewares.Auth, controllers.Show)
+	router.POST("/api/v1/article", middlewares.Auth, controllers.Create)
+	router.PUT("/api/v1/article/:id", middlewares.Auth, controllers.Update)
+	router.DELETE("/api/v1/article", middlewares.Auth, controllers.Delete)
 
-	err := router.Run(":8000")
+	err := router.Run(":" + os.Getenv("PORT"))
 	if err != nil {
 		return
 	}
