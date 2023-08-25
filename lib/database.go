@@ -1,7 +1,6 @@
 package lib
 
 import (
-	"github.com/muttayoshi/tempo-news/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -31,12 +30,13 @@ func ConnectDatabase(config Config) Database {
 		panic(err)
 	}
 
-	errMigrate := db.AutoMigrate(
-		&models.Article{},
-	)
-	if errMigrate != nil {
-		panic(errMigrate)
-	}
+	//errMigrate := db.AutoMigrate(
+	//	&models.Article{},
+	//	&models.User{},
+	//)
+	//if errMigrate != nil {
+	//	panic(errMigrate)
+	//}
 
 	DB = db
 

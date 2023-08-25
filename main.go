@@ -7,14 +7,19 @@ import (
 	"net/http"
 )
 
+func init() {
+	lib.ConnectDatabase(lib.NewConfig())
+	lib.MigrateDatabase()
+}
+
 func main() {
 	router := gin.New()
 	router.GET("/", func(context *gin.Context) {
 		context.String(200, "Tempo News")
 	})
 
-	config := lib.NewConfig()
-	lib.ConnectDatabase(config)
+	//config := lib.NewConfig()
+	//lib.ConnectDatabase(config)
 
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
@@ -22,6 +27,7 @@ func main() {
 		})
 	})
 
+	router.POST("/api/v1/signup", controllers.SignUp)
 	router.GET("/api/v1/articles", controllers.Index)
 	router.GET("/api/v1/article/:id", controllers.Show)
 	router.POST("/api/v1/article", controllers.Create)
