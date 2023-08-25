@@ -1,4 +1,4 @@
-package article_controllers
+package controllers
 
 import (
 	"encoding/json"
