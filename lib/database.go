@@ -30,14 +30,6 @@ func ConnectDatabase(config Config) Database {
 		panic(err)
 	}
 
-	//errMigrate := db.AutoMigrate(
-	//	&models.Article{},
-	//	&models.User{},
-	//)
-	//if errMigrate != nil {
-	//	panic(errMigrate)
-	//}
-
 	DB = db
 
 	return Database{

@@ -111,8 +111,11 @@ func SignIn(c *gin.Context) {
 }
 
 func Validate(c *gin.Context) {
+	user, _ := c.Get("user")
+
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
-		"message": "Token Valid",
+		"message": "Success.",
+		"user":    user,
 	})
 }
