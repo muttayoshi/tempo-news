@@ -27,7 +27,7 @@ func Show(c *gin.Context) {
 	var article models.Article
 	id := c.Param("id")
 
-	if err := lib.DB.First(&article, id).Error; err != nil {
+	if err := lib.DB.First(&article, "id = ?", id).Error; err != nil {
 		switch err {
 		case gorm.ErrRecordNotFound:
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
